@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Cliente> findWithLockingById(Integer id);
 }
