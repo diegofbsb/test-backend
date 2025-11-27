@@ -136,11 +136,33 @@ A documentação da API está disponível em:
 
 Swagger 👉 **http://localhost:8080/swagger-ui.html**
 
-HAProxy 👉 **http://localhost:9999/swagger-ui/index.html**
+HAProxy 👉 **http://localhost:9999/swagger-ui/index.html** (via Load Balancer)
 
 
 ---
 
+🧪 Exemplos de Requisições
+---
+🟢 Registrar Nova Transação
+---
+```
+curl --location 'http://localhost:9999/clientes/1/transacoes' \
+--header 'accept: */*' \
+--header 'Content-Type: application/json' \
+--data '{
+"valor": 100000,
+"tipo": "c",
+"descricao": "string"
+}'
+```
+🔵 Consultar Extrato
+---
+```
+curl --location 'http://localhost:9999/clientes/2/extrato' \
+--header 'accept: */*' \
+--data ''
+```
+---
 # 🐳 Rodando com Docker
 
 ### **1️⃣ Build e subir serviços**
