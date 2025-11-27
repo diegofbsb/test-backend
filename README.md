@@ -44,6 +44,19 @@ Este projeto implementa a API exigida na **Rinha de Backend**, utilizando um amb
 
 Tudo conteinerizado via Docker Compose.
 
+# 📌 Repositório Público (obrigatório)
+
+👉 **Código-fonte completo:**  
+https://github.com/diegofbsb/test-backend
+
+---
+
+# 🐋 Imagem Docker da API 
+
+> Substitua abaixo pela sua imagem quando fizer o push no Docker Hub:
+
+👉 **Imagem Docker:**  
+https://hub.docker.com/r/diegofbsb/diego-backend
 ---
 
 # 🏗️ Arquitetura
