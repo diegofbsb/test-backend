@@ -195,7 +195,7 @@ application-prod.properties
 📈 Testes de Performance (Gatling)
 ```
 Clone o repositório do teste de carga:
-git clone https://github.com/zanfranceschi/rinha-de-backend-2024-q3.git
+git clone https://github.com/diegofbsb/test-gatling.git
 Execute o teste apontando para o load balancer:
 mvn gatling:test -DBASE_URL=http://localhost:9999
 ```
