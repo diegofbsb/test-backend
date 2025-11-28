@@ -47,7 +47,9 @@ Tudo conteinerizado via Docker Compose.
 # 📌 Repositório Público (obrigatório)
 
 👉 **Código-fonte completo:**  
-https://github.com/diegofbsb/test-backend
+https://github.com/diegofbsb/test-backend.git
+
+https://github.com/diegofbsb/test-gatling.git
 
 ---
 
