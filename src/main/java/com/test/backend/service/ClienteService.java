@@ -50,12 +50,10 @@ public class ClienteService {
         if (!CREDITO.equals(tipo) && !DEBITO.equals(tipo))
             throw new IllegalArgumentException("Tipo inválido: " + request.getTipo());
         int valor = request.getValor();
-        boolean clienteExiste = Boolean.TRUE.equals(
-                jdbcTemplate.queryForObject(
-                        "SELECT EXISTS(SELECT 1 FROM clientes WHERE id = ?)",
-                        Boolean.class,
-                        clienteId
-                )
+        boolean clienteExiste = jdbcTemplate.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM clientes WHERE id = ?)",
+                Boolean.class,
+                clienteId
         );
         if (!clienteExiste) throw new ClienteNaoEncontradoException(clienteId);
         int delta = CREDITO.equals(tipo) ? valor : -valor;

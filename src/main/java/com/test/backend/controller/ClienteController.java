@@ -47,7 +47,7 @@ public class ClienteController {
     @PostMapping("/{id}/transacoes")
     @ResponseStatus(HttpStatus.OK)
     public TransacaoResponse novaTransacao(
-            @Parameter(description = "ID do cliente") @PathVariable("id") Integer id,
+            @PathVariable @Parameter(description = "ID do cliente") Integer id,
             @Valid @RequestBody NovaTransacaoRequest request) {
 
         return service.novaTransacao(id, request);
@@ -70,7 +70,7 @@ public class ClienteController {
     )
     @GetMapping("/{id}/extrato")
     public ExtratoResponse extrato(
-            @Parameter(description = "ID do cliente") @PathVariable("id") Integer id) {
+            @PathVariable @Parameter(description = "ID do cliente") Integer id) {
 
         return service.extrato(id);
     }
