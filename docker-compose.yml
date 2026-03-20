@@ -55,7 +55,7 @@ services:
       resources:
         limits:
           cpus: "0.20"
-          memory: "100M"
+          memory: "200M"
 
   # ============================================================
   # ⚡ KAFKA (KRaft)
@@ -84,23 +84,16 @@ services:
   # ============================================================
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
-    container_name: kafka_ui
+    container_name: kafka-ui
     ports:
-      - "9094:8080"
+      - "8085:8080" # Se a porta 8080 estiver ocupada pela sua API, use "8090:8080"
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      JAVA_OPTS: "-Xmx64M -Xms64M"
-    depends_on:
-      kafka:
-        condition: service_healthy
+      KAFKA_CLUSTERS_0_NAME: rinha-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092 # Nome do serviço no docker
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: 'true'
     networks:
       - rinha-net
-    deploy:
-      resources:
-        limits:
-          cpus: "0.10"
-          memory: "70M"
   # ============================================================
   # Dozzle (Visualizador de Logs em Tempo Real)
   # ============================================================
@@ -138,7 +131,7 @@ services:
       resources:
         limits:
           cpus: "0.50"
-          memory: "128M"
+          memory: "512M"
 
   api02:
     <<: *api_config
