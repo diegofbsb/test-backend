@@ -30,6 +30,8 @@ services:
     image: postgres:16-alpine
     container_name: postgres_rinha
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -61,37 +63,21 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     container_name: kafka
+    ports:
+      - "9092:9092" # Abre a porta para o seu Windows/Linux
     environment:
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_NODE_ID: 1
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-
+      # LISTENERS: Interno (9093) e Externo (9092)
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-
+      # ADVERTISED: Como a sua IDE vai achar o Kafka
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-
-      CLUSTER_ID: VQ71w0MFQ5eHgF4PIQJ5jQ
-
-      # 🔥 tuning leve
-      KAFKA_HEAP_OPTS: "-Xmx80M -Xms80M"
-      KAFKA_LOG_CLEANER_ENABLE: "false"
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
     networks:
       - rinha-net
-    healthcheck:
-      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    deploy:
-      resources:
-        limits:
-          cpus: "0.20"
-          memory: "100M"
 
   # ============================================================
   # 📊 KAFKA UI
@@ -115,7 +101,18 @@ services:
         limits:
           cpus: "0.10"
           memory: "70M"
-
+  # ============================================================
+  # Dozzle (Visualizador de Logs em Tempo Real)
+  # ============================================================
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    ports:
+      - "8888:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - rinha-net
   # ============================================================
   # 🚀 APIs
   # ============================================================
@@ -127,27 +124,21 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/rinha
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-
-      JAVA_TOOL_OPTIONS: >
-        -Xms80M
-        -Xmx80M
-        -XX:+UseSerialGC
-        -XX:MaxRAMPercentage=75
-        -XX:+AlwaysPreTouch
+      JAVA_TOOL_OPTIONS: "-Xms64M -Xmx64M -XX:+UseSerialGC"
     expose:
       - "8080"
     depends_on:
       db:
         condition: service_healthy
       kafka:
-        condition: service_healthy
+        condition: service_started
     networks:
       - rinha-net
     deploy:
       resources:
         limits:
           cpus: "0.50"
-          memory: "120M"
+          memory: "128M"
 
   api02:
     <<: *api_config
@@ -155,3 +146,4 @@ services:
 networks:
   rinha-net:
     driver: bridge
+

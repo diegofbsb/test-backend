@@ -142,6 +142,8 @@ HAProxy 👉 **http://localhost:9999/swagger-ui/index.html** (via Load Balancer)
 
 Kafka UI 👉 **http://localhost:9094** (Kafka)
 
+Dozzle UI 👉 **http://localhost:8888** (dozzle)
+
 ---
 
 🧪 Exemplos de Requisições

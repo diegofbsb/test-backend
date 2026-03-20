@@ -1,5 +1,8 @@
-CREATE INDEX IF NOT EXISTS idx_transacoes_cliente_data
-    ON transacoes (cliente_id, realizada_em DESC);
+CREATE TABLE IF NOT EXISTS clientes (
+                                        id SERIAL PRIMARY KEY,
+                                        limite INTEGER NOT NULL,
+                                        saldo INTEGER NOT NULL
+);
 
-CREATE INDEX IF NOT EXISTS idx_transacoes_cliente_id
-    ON transacoes (cliente_id);
+-- Aproveite para colocar os índices que conversamos antes aqui!
+CREATE INDEX IF NOT EXISTS idx_clientes_id ON clientes (id);
