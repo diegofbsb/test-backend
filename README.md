@@ -136,10 +136,11 @@ backend/
 
 A documentação da API está disponível em:
 
-Swagger 👉 **http://localhost:8080/swagger-ui.html**
+Swagger 👉 **http://localhost:8080/swagger-ui.html** (Local)
 
 HAProxy 👉 **http://localhost:9999/swagger-ui/index.html** (via Load Balancer)
 
+Kafka UI 👉 **http://localhost:9094** (Kafka)
 
 ---
 

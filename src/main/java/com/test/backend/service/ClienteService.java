@@ -10,6 +10,7 @@ import com.test.backend.repository.TransacaoRepository;
 import com.test.backend.request.NovaTransacaoRequest;
 import com.test.backend.response.ExtratoResponse;
 import com.test.backend.response.TransacaoResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,9 @@ import java.util.Locale;
 
 @Service
 public class ClienteService {
+
+    @Autowired
+    private KafkaService kafkaService;
 
     private static final String DEBITO = "d";
     private static final String CREDITO = "c";
@@ -85,6 +89,7 @@ public class ClienteService {
                 request.getDescricao(),
                 agora
         );
+        kafkaService.enviar();
         return new TransacaoResponse(
                 limiteSaldo.limite(),
                 limiteSaldo.saldo()
